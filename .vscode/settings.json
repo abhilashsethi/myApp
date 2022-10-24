@@ -1,0 +1,22 @@
+{
+  "workbench.colorTheme": "Monokai",
+  "editor.inlineSuggest.enabled": true,
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "security.workspace.trust.untrustedFiles": "open",
+  "editor.copyWithSyntaxHighlighting": false,
+  "[javascript]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": true //remove unused imports
+  },
+  "cSpell.words": ["Commited", "Ogoing"]
+}
