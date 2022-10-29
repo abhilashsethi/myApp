@@ -1,50 +1,24 @@
 import React, {useState} from 'react';
-import {
-  RefreshControl,
-  SectionList,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {StyleSheet, Text, TextInput, View} from 'react-native';
 
 const COLORS = {primary: '#1f145c', white: '#fff'};
 
 const App = () => {
-  const [sections, setSections] = useState([
-    {title: 'Title 1', data: ['item 1-1', 'item 1-2']},
-  ]);
-
-  const [refreshing, setRefreshing] = useState(false);
-  const handleRefresh = () => {
-    setRefreshing(true);
-    const adding_index = sections.length + 1;
-    setSections([
-      ...sections,
-      {
-        title: `Title ${adding_index}`,
-        data: [`item ${adding_index} -1`, `item ${adding_index} -2`],
-      },
-    ]);
-    setRefreshing(false);
-  };
+  const [name, setName] = useState('');
 
   return (
     <View style={styles.body}>
-      <SectionList
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
-        }
-        keyExtractor={(item, index) => index.toString()}
-        sections={sections}
-        renderItem={({item}) => {
-          return <Text style={styles.text}>{item}</Text>;
+      <Text>Please Write Your Name </Text>
+      <TextInput
+        // editable={false}
+        style={styles.input}
+        // keyboardType="phone-pad"
+        placeholder={'Enter Your Name'}
+        onChangeText={value => {
+          setName(value);
         }}
-        renderSectionHeader={({section}) => (
-          <View style={styles.item}>
-            <Text style={styles.text}>{section.title}</Text>
-          </View>
-        )}
       />
+      <Text>Your Name is : {name}</Text>
     </View>
   );
 };
@@ -52,9 +26,8 @@ const App = () => {
 const styles = StyleSheet.create({
   body: {
     flex: 1,
-    flexDirection: 'column',
-
     backgroundColor: COLORS.white,
+    alignItems: 'center',
   },
   text: {
     color: '#000',
@@ -66,6 +39,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     margin: 5,
+  },
+  input: {
+    width: 200,
+    borderColor: '#555',
+    borderRadius: 5,
+    borderWidth: 1,
+    textAlign: 'center',
+    fontSize: 15,
   },
 });
 
