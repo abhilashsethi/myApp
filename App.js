@@ -1,5 +1,12 @@
 import React, {useState} from 'react';
-import {Pressable, StyleSheet, Text, TextInput, View} from 'react-native';
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  ToastAndroid,
+  View,
+} from 'react-native';
 
 const COLORS = {primary: '#1f145c', white: '#fff'};
 
@@ -8,7 +15,28 @@ const App = () => {
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = () => {
-    setSubmitted(!submitted);
+    if (name.length >= 4) {
+      setSubmitted(!submitted);
+    } else {
+      // Alert.alert(
+      //   'Warning',
+      //   'Name should be at least 4 characters',
+      //   [
+      //     {text: 'Do not show again', onPress: console.warn('Ok pressed')},
+      //     {text: 'Cancel', onPress: console.warn('Ok pressed')},
+      //     {text: 'OK', onPress: console.warn('Ok pressed')},
+      //   ],
+      //   {
+      //     cancelable: true,
+      //     onDismiss: () => console.warn('Alert was dismissed'),
+      //   },
+      // );
+      ToastAndroid.showWithGravity(
+        'Name should be at least 4 characters',
+        ToastAndroid.SHORT,
+        ToastAndroid.CENTER,
+      );
+    }
   };
 
   return (
