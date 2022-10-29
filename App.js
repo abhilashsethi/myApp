@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {RefreshControl, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {SectionList, StyleSheet, Text, View} from 'react-native';
 
 const COLORS = {primary: '#1f145c', white: '#fff'};
 
@@ -43,7 +43,7 @@ const App = () => {
 
   return (
     <View style={styles.body}>
-      {/* <SectionList
+      <SectionList
         sections={DATA}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({item}) => {
@@ -54,7 +54,7 @@ const App = () => {
             <Text style={styles.text}>{section.title}</Text>
           </View>
         )}
-      /> */}
+      />
 
       {/* <FlatList
         // numColumns={2}
@@ -77,7 +77,7 @@ const App = () => {
         }}
       /> */}
 
-      <ScrollView
+      {/* <ScrollView
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
@@ -92,7 +92,7 @@ const App = () => {
             </View>
           );
         })}
-      </ScrollView>
+      </ScrollView> */}
     </View>
   );
 };
