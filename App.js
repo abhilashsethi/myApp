@@ -1,44 +1,119 @@
 import React, {useState} from 'react';
-import {Button, StyleSheet, Text, View} from 'react-native';
+import {RefreshControl, ScrollView, StyleSheet, Text, View} from 'react-native';
 
 const COLORS = {primary: '#1f145c', white: '#fff'};
 
 const App = () => {
-  const [name, setName] = useState('Abhilash');
-  const [session, setSession] = useState({number: 6, title: 'state'});
-  const [current, setCurrent] = useState(true);
-  const handleClick = () => {
-    setName('Abhi');
-    setSession({number: 7, title: 'new session'});
-    setCurrent(false);
+  const [items, setItems] = useState([
+    {name: 'Item 1'},
+    {name: 'Item 2'},
+    {name: 'Item 3'},
+    {name: 'Item 4'},
+    {name: 'Item 5'},
+    {name: 'Item 6'},
+    {name: 'Item 7'},
+    {name: 'Item 8'},
+  ]);
+
+  const DATA = [
+    {
+      title: 'Title 1',
+      data: ['Item 1-1', 'Item 1-2', 'Item 1-3'],
+    },
+    {
+      title: 'Title 2',
+      data: ['Item 2-1', 'Item 2-2', 'Item 2-3'],
+    },
+    {
+      title: 'Title 3',
+      data: ['Item 3-1'],
+    },
+    {
+      title: 'Title 4',
+      data: ['Item 4-1', 'Item 4-2'],
+    },
+  ];
+
+  const [refreshing, setRefreshing] = useState(false);
+  const handleRefresh = () => {
+    setRefreshing(true);
+    setItems([...items, {name: 'Item 9'}]);
+    setRefreshing(false);
   };
 
-  const {number, title} = session;
-
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: COLORS.white,
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}>
-      <Text style={{color: 'red'}}>Learn React Native with {name}</Text>
-      <Text>
-        {number} {title}
-      </Text>
-      <Text>{current ? 'Current session' : 'Next session'}</Text>
-      <Button title="click" onPress={handleClick} />
+    <View style={styles.body}>
+      {/* <SectionList
+        sections={DATA}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({item}) => {
+          return <Text style={styles.text}>{item}</Text>;
+        }}
+        renderSectionHeader={({section}) => (
+          <View style={styles.item}>
+            <Text style={styles.text}>{section.title}</Text>
+          </View>
+        )}
+      /> */}
+
+      {/* <FlatList
+        // numColumns={2}
+        // horizontal={true}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={handleRefresh}
+            colors={['#ff00ff']}
+          />
+        }
+        data={items}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({item}) => {
+          return (
+            <View style={styles.item}>
+              <Text style={styles.text}>{item.name}</Text>
+            </View>
+          );
+        }}
+      /> */}
+
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={handleRefresh}
+            colors={['#ff00ff']}
+          />
+        }>
+        {items.map((item, index) => {
+          return (
+            <View style={styles.item} key={index}>
+              <Text style={styles.text}>{item.name}</Text>
+            </View>
+          );
+        })}
+      </ScrollView>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  header: {
-    padding: 20,
-    flexDirection: 'row',
+  body: {
+    flex: 1,
+    flexDirection: 'column',
+
+    backgroundColor: COLORS.white,
+  },
+  text: {
+    color: '#000',
+    fontSize: 40,
+    margin: 10,
+  },
+  item: {
+    backgroundColor: '#4ae1fa',
+    justifyContent: 'center',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    margin: 5,
   },
 });
 
