@@ -1,12 +1,15 @@
 // In App.js in a new project
 
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+// import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import CustomButton from './CustomButton';
 import ScreenA from './ScreenA';
 import ScreenB from './ScreenB';
+
 const COLORS = {primary: '#1f145c', white: '#fff'};
 
 function HomeScreen() {
@@ -37,25 +40,26 @@ const Main = ({navigation}) => {
   );
 };
 
-const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator
-      // screenOptions={{
-      //   header: () => null
-      // }}
-      >
-        <Stack.Screen
-          name="Screen_A"
-          component={ScreenA}
-          // options={{
-          //   header: () => null
-          // }}
-        />
-        <Stack.Screen name="Screen_B" component={ScreenB} />
-      </Stack.Navigator>
+      <Tab.Navigator
+        screenOptions={({route}) => ({
+          tabBarIcon: ({focused, size, color}) => {
+            let iconName;
+            if (route.name === 'Screen_A') {
+              iconName = 'autoprefixer';
+            } else if (route.name === 'Screen_B') {
+              iconName = 'btc';
+            }
+            return <FontAwesome5 name={iconName} />;
+          },
+        })}>
+        <Tab.Screen name="Screen_A" component={ScreenA} />
+        <Tab.Screen name="Screen_B" component={ScreenB} />
+      </Tab.Navigator>
     </NavigationContainer>
   );
 }
