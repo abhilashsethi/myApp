@@ -9,6 +9,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
+import CustomButton from './CustomButton';
 
 const COLORS = {primary: '#1f145c', white: '#fff'};
 
@@ -59,7 +60,7 @@ const App = () => {
           setName(value);
         }}
       />
-      <Pressable
+      {/* <Pressable
         style={({pressed}) => [
           {backgroundColor: pressed ? '#ddd' : 'orange'},
           styles.button,
@@ -67,19 +68,23 @@ const App = () => {
         android_ripple={{color: '#00f'}}
         onPress={handleSubmit}>
         <Text style={styles.text}>{submitted ? `clear` : `submit`}</Text>
-      </Pressable>
+      </Pressable> */}
+      <CustomButton
+        title={submitted ? `clear` : `submit`}
+        onPressHandler={handleSubmit}
+      />
       {submitted ? (
         <View style={styles.body}>
           <Text>Your are registered as : {name}</Text>
           <Image
-            source={require('./assets/done.png')}
+            source={require('../assets/done.png')}
             style={styles.img}
             resizeMode="stretch"
           />
         </View>
       ) : (
         <Image
-          source={require('./assets/error.png')}
+          source={require('../assets/error.png')}
           style={styles.img}
           resizeMode="stretch"
         />
