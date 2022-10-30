@@ -1,10 +1,12 @@
 import React, {useState} from 'react';
 import {
+  Image,
+  ImageBackground,
+  Modal,
   Pressable,
   StyleSheet,
   Text,
   TextInput,
-  ToastAndroid,
   View,
 } from 'react-native';
 
@@ -13,49 +15,50 @@ const COLORS = {primary: '#1f145c', white: '#fff'};
 const App = () => {
   const [name, setName] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [showWarning, setShowWarning] = useState(false);
 
   const handleSubmit = () => {
     if (name.length >= 4) {
       setSubmitted(!submitted);
     } else {
-      // Alert.alert(
-      //   'Warning',
-      //   'Name should be at least 4 characters',
-      //   [
-      //     {text: 'Do not show again', onPress: console.warn('Ok pressed')},
-      //     {text: 'Cancel', onPress: console.warn('Ok pressed')},
-      //     {text: 'OK', onPress: console.warn('Ok pressed')},
-      //   ],
-      //   {
-      //     cancelable: true,
-      //     onDismiss: () => console.warn('Alert was dismissed'),
-      //   },
-      // );
-      ToastAndroid.showWithGravity(
-        'Name should be at least 4 characters',
-        ToastAndroid.SHORT,
-        ToastAndroid.CENTER,
-      );
+      setShowWarning(true);
     }
   };
 
   return (
-    <View style={styles.body}>
+    <ImageBackground
+      source={{
+        uri: 'https://cdn.pixabay.com/photo/2022/10/18/20/27/old-man-7531093_960_720.jpg',
+      }}
+      style={styles.body}>
+      <Modal
+        visible={showWarning}
+        transparent
+        animationType="slide"
+        hardwareAccelerated
+        onRequestClose={() => {
+          setShowWarning(false);
+        }}>
+        <View style={styles.container_modal}>
+          <View style={styles.warning_modal}>
+            <Text>The name should be longer than 3 characters</Text>
+            <Pressable
+              onPress={() => {
+                setShowWarning(false);
+              }}>
+              <Text style={styles.text}>OK</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
       <Text>Please Write Your Name </Text>
       <TextInput
-        // multiline
-        // editable={false}
         style={styles.input}
-        // keyboardType="phone-pad"
         placeholder={'Enter Your Name'}
         onChangeText={value => {
           setName(value);
         }}
       />
-      {/* <Button title={submitted ? `clear` : `submit`} onPress={handleSubmit} /> */}
-      {/* <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-        <Text style={styles.text}>{submitted ? `clear` : `submit`}</Text>
-      </TouchableOpacity> */}
       <Pressable
         style={({pressed}) => [
           {backgroundColor: pressed ? '#ddd' : 'orange'},
@@ -65,18 +68,23 @@ const App = () => {
         onPress={handleSubmit}>
         <Text style={styles.text}>{submitted ? `clear` : `submit`}</Text>
       </Pressable>
-      {/* <Pressable
-        style={({pressed}) => [
-          {backgroundColor: pressed ? '#ddd' : 'orange'},
-          styles.button,
-        ]}
-        onLongPress={handleSubmit}
-        // delayLongPress={2000}
-      >
-        <Text style={styles.text}>{submitted ? `clear` : `submit`}</Text>
-      </Pressable> */}
-      {submitted && <Text>Your are registered as : {name}</Text>}
-    </View>
+      {submitted ? (
+        <View style={styles.body}>
+          <Text>Your are registered as : {name}</Text>
+          <Image
+            source={require('./assets/done.png')}
+            style={styles.img}
+            resizeMode="stretch"
+          />
+        </View>
+      ) : (
+        <Image
+          source={require('./assets/error.png')}
+          style={styles.img}
+          resizeMode="stretch"
+        />
+      )}
+    </ImageBackground>
   );
 };
 
@@ -112,6 +120,29 @@ const styles = StyleSheet.create({
     width: 80,
     alignItems: 'center',
     borderRadius: 5,
+    backgroundColor: 'orange',
+    color: '#000',
+    textAlign: 'center',
+    // paddingTop: 10,
+  },
+  warning_modal: {
+    width: 200,
+    height: 200,
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 5,
+  },
+  container_modal: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#00000099',
+  },
+  img: {
+    width: 80,
+    height: 80,
+    margin: 10,
   },
 });
 
