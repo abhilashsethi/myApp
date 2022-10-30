@@ -1,97 +1,64 @@
-import React, {useState} from 'react';
-import {
-  Image,
-  ImageBackground,
-  Modal,
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
-import CustomButton from './CustomButton';
+// In App.js in a new project
 
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import React from 'react';
+import {StyleSheet, Text, View} from 'react-native';
+import CustomButton from './CustomButton';
+import ScreenA from './ScreenA';
+import ScreenB from './ScreenB';
 const COLORS = {primary: '#1f145c', white: '#fff'};
 
-const App = () => {
-  const [name, setName] = useState('');
-  const [submitted, setSubmitted] = useState(false);
-  const [showWarning, setShowWarning] = useState(false);
+function HomeScreen() {
+  return (
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <Text>Home Screen</Text>
+    </View>
+  );
+}
 
+const Main = ({navigation}) => {
   const handleSubmit = () => {
-    if (name.length >= 4) {
-      setSubmitted(!submitted);
-    } else {
-      setShowWarning(true);
-    }
+    navigation.navigate('Home');
   };
 
   return (
-    <ImageBackground
-      source={{
-        uri: 'https://cdn.pixabay.com/photo/2022/10/18/20/27/old-man-7531093_960_720.jpg',
-      }}
-      style={styles.body}>
-      <Modal
-        visible={showWarning}
-        transparent
-        animationType="slide"
-        hardwareAccelerated
-        onRequestClose={() => {
-          setShowWarning(false);
-        }}>
-        <View style={styles.container_modal}>
-          <View style={styles.warning_modal}>
-            <Text>The name should be longer than 3 characters</Text>
-            <Pressable
-              onPress={() => {
-                setShowWarning(false);
-              }}>
-              <Text style={styles.text}>OK</Text>
-            </Pressable>
-          </View>
+    <View style={styles.body}>
+      <View>
+        <View>
+          <Text>Navigation</Text>
         </View>
-      </Modal>
+      </View>
+
       <Text>Please Write Your Name </Text>
-      <TextInput
-        style={styles.input}
-        placeholder={'Enter Your Name'}
-        onChangeText={value => {
-          setName(value);
-        }}
-      />
-      {/* <Pressable
-        style={({pressed}) => [
-          {backgroundColor: pressed ? '#ddd' : 'orange'},
-          styles.button,
-        ]}
-        android_ripple={{color: '#00f'}}
-        onPress={handleSubmit}>
-        <Text style={styles.text}>{submitted ? `clear` : `submit`}</Text>
-      </Pressable> */}
-      <CustomButton
-        title={submitted ? `clear` : `submit`}
-        onPressHandler={handleSubmit}
-      />
-      {submitted ? (
-        <View style={styles.body}>
-          <Text>Your are registered as : {name}</Text>
-          <Image
-            source={require('../assets/done.png')}
-            style={styles.img}
-            resizeMode="stretch"
-          />
-        </View>
-      ) : (
-        <Image
-          source={require('../assets/error.png')}
-          style={styles.img}
-          resizeMode="stretch"
-        />
-      )}
-    </ImageBackground>
+
+      <CustomButton title={'click'} onPressHandler={handleSubmit} />
+    </View>
   );
 };
+
+const Stack = createNativeStackNavigator();
+
+function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator
+      // screenOptions={{
+      //   header: () => null
+      // }}
+      >
+        <Stack.Screen
+          name="Screen_A"
+          component={ScreenA}
+          // options={{
+          //   header: () => null
+          // }}
+        />
+        <Stack.Screen name="Screen_B" component={ScreenB} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
 
 const styles = StyleSheet.create({
   body: {
